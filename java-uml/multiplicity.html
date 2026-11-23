@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multiplicity · Java UML · Exam Lab</title>
+<meta name="description" content="Lesson 4: reading and writing UML multiplicity (1, 0..1, *, 1..*).">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>try{var t=localStorage.getItem('examlab:theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script type="module" src="multiplicity.js"></script>
+<style>
+  .mchips { display: flex; flex-wrap: wrap; gap: 12px; }
+  .mchip { min-width: 84px; min-height: 56px; font: 600 22px "JetBrains Mono", monospace; }
+  .mchip[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: 4px 4px 0 var(--shadow); transform: translateY(-3px); }
+  .meaning { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; }
+  .meaning__big { font: 700 clamp(48px, 8vw, 72px)/1 "JetBrains Mono", monospace; min-width: 160px; }
+  .meaning__text { flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+  .meaning__text h3 { font-size: 26px; }
+  .pips { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; min-height: 36px; }
+  .pip { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--line); background: var(--accent); animation: pop .35s ease-out both; }
+  .pip--maybe { background: transparent; border-style: dashed; border-color: var(--uml); }
+  .pip--fade { filter: opacity(.4); }
+  .pips__more { font: 700 22px "JetBrains Mono", monospace; animation: rise .4s ease-out both; }
+
+  .reader { display: flex; flex-direction: column; gap: 24px; padding-top: 48px; }
+  .reader .mult { transition: background .25s ease, color .25s ease; padding: 2px 6px; border-radius: 6px; animation: none; bottom: auto; top: calc(50% - 44px); }
+  .reader .mult.is-on { background: var(--sun); color: var(--on-sun); animation: bump .4s ease-out; }
+  .traveller { position: absolute; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: var(--sun); border: 2px solid var(--line); opacity: 0; }
+  .traveller.go-right { animation: travel-r .9s ease-in-out both; }
+  .traveller.go-left { animation: travel-l .9s ease-in-out both; }
+  @keyframes travel-r { 0% { left: 0; opacity: 1; } 90% { opacity: 1; } 100% { left: calc(100% - 14px); opacity: 0; } }
+  @keyframes travel-l { 0% { left: calc(100% - 14px); opacity: 1; } 90% { opacity: 1; } 100% { left: 0; opacity: 0; } }
+  .reader__sentence { font-family: "Space Grotesk", sans-serif; font-size: clamp(20px, 2.6vw, 26px); font-weight: 500; min-height: 36px; }
+
+  .puzzle { display: flex; flex-direction: column; gap: 26px; }
+  .puzzle .stage { padding-top: 34px; }
+  .puzzle .mult { animation: none; bottom: auto; top: calc(50% - 48px); padding: 2px 8px; border-radius: 6px; border: 2px dashed var(--faint-line); min-width: 40px; text-align: center; color: var(--text); }
+  .puzzle .mult.is-right { border: 2px solid var(--ok-line); background: var(--ok-bg); color: var(--ok-ink); }
+  .puzzle .mult.is-wrong { border: 2px solid var(--bad-line); background: var(--bad-bg); color: var(--bad-ink); animation: shake .4s ease-in-out; }
+  .ends { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .end { display: flex; flex-direction: column; gap: 8px; }
+  .end__label { font-weight: 600; }
+  .seg { display: flex; flex-wrap: wrap; gap: 8px; }
+  .seg .btn { min-width: 64px; font-family: "JetBrains Mono", monospace; box-shadow: 2px 2px 0 var(--shadow); }
+  .seg .btn[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+  @media (max-width: 560px) { .ends { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <a class="back-link" href="../index.html#topics"><span data-icon="left"></span> All topics</a>
+    <button class="btn btn--ghost btn--icon" type="button" data-theme-toggle aria-label="Switch theme"></button>
+  </header>
+</div>
+
+<main class="wrap stack" style="gap:36px">
+  <div class="stack rise" style="gap:6px">
+    <span class="eyebrow">Java UML · Lesson 4</span>
+    <h1 class="page-title">How many?</h1>
+    <p class="lead">The little numbers at each end of a line.</p>
+  </div>
+
+  <section class="stack rise rise-1" style="gap:16px">
+    <div class="mchips" role="group" aria-label="Multiplicity values" id="mchips"></div>
+    <div class="card card--pad meaning" id="meaning" aria-live="polite"></div>
+  </section>
+
+  <section class="stack" style="gap:16px">
+    <h2 class="section-title">Reading the line</h2>
+    <div class="card card--pad reader">
+      <div class="stage" role="img" aria-label="Person, multiplicity 1, associated with Car, multiplicity 0..*">
+        <div class="uml uml--box"><div class="uml__name">Person</div><div class="uml__sec uml__sec--empty"></div></div>
+        <div class="stage__link" id="reader-link">
+          <svg class="arrow" viewBox="0 0 400 60" aria-hidden="true"><line x1="6" y1="30" x2="394" y2="30" stroke-width="3"></line></svg>
+          <span class="traveller" id="traveller"></span>
+          <span class="mult mult--l" id="m-left">1</span>
+          <span class="mult mult--r" id="m-right">0..*</span>
+        </div>
+        <div class="uml uml--box"><div class="uml__name">Car</div><div class="uml__sec uml__sec--empty"></div></div>
+      </div>
+      <div class="row row--between">
+        <p class="reader__sentence" id="reader-sentence" aria-live="polite"></p>
+        <div class="row" style="gap:10px">
+          <button class="btn" type="button" id="read-right">Read →</button>
+          <button class="btn" type="button" id="read-left">← Read</button>
+        </div>
+      </div>
+    </div>
+    <div class="sticky">
+      <strong>The one rule</strong>
+      A number sits next to the class it counts. Start at one class, walk the line, read the far number.
+    </div>
+  </section>
+
+  <section class="stack" style="gap:16px">
+    <div class="row row--between" style="align-items:baseline">
+      <h2 class="section-title">Your turn: label the ends</h2>
+      <span class="chip" id="puzzle-count"></span>
+    </div>
+    <div class="card card--pad puzzle" id="puzzle"></div>
+  </section>
+
+  <section class="stack" id="check" style="gap:16px">
+    <div class="row row--between" style="align-items:baseline">
+      <h2 class="section-title">Mini quiz</h2>
+      <span class="muted" id="check-count"></span>
+    </div>
+    <div class="card card--pad stack" id="check-body" style="gap:20px"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Exam Lab · Java UML</span>
+    <a href="quiz.html">Ready? Boss quiz</a>
+  </div>
+</footer>
+</body>
+</html>

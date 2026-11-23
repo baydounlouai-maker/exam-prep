@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visibility symbols · Java UML · Exam Lab</title>
+<meta name="description" content="Lesson 2: the four UML visibility symbols and what they mean in Java.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>try{var t=localStorage.getItem('examlab:theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script type="module" src="visibility.js"></script>
+<style>
+  .zones-wrap { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; }
+  .sym-picker { display: flex; flex-direction: column; gap: 12px; flex: 0 1 240px; }
+  .sym-btn { justify-content: flex-start; gap: 14px; min-height: 56px; }
+  .sym-btn .mono { font-size: 24px; width: 26px; text-align: center; }
+  .sym-btn[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+  .zones { flex: 1 1 420px; min-width: 0; }
+  .zone {
+    border: 2px dashed var(--faint-line); border-radius: 22px; padding: 34px 14px 14px; position: relative;
+    background: transparent; transition: background .35s ease, border-color .35s ease;
+  }
+  .zone__label { position: absolute; top: 8px; left: 14px; font-size: 14px; font-weight: 600; color: var(--muted); display: flex; gap: 6px; align-items: center; transition: color .3s ease; }
+  .zone.is-on { background: var(--tint); border-style: solid; border-color: var(--line); }
+  .zone.is-on > .zone__label { color: var(--text); }
+  .zone__mark { display: none; color: var(--accent-text); }
+  .zone.is-on > .zone__label .zone__mark { display: inline-flex; animation: pop .3s ease-out both; }
+  .zone--core { padding: 16px; text-align: center; border-style: solid; }
+  .zone--core.is-on { background: var(--sun); color: var(--on-sun); }
+  .zone--core .uml { display: inline-block; text-align: left; }
+  .zones-note { font-size: 17px; min-height: 26px; }
+
+  .sorter { display: flex; flex-direction: column; gap: 20px; }
+  .sorter__line { font: 600 clamp(16px, 2.4vw, 20px)/1.5 "JetBrains Mono", monospace; background: var(--code-bg); color: #E6E6F5; border-radius: 14px; padding: 18px 20px; overflow-x: auto; white-space: pre; border: 2px solid var(--line); }
+  .sorter__btns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .sorter__btns .btn { min-height: 72px; flex-direction: column; gap: 0; font-size: 13px; }
+  .sorter__btns .btn .mono { font-size: 30px; line-height: 1.1; }
+  .sorter__btns .btn.is-right { background: var(--ok-bg); border-color: var(--ok-line); animation: bump .4s ease-out; }
+  .sorter__btns .btn.is-wrong { background: var(--bad-bg); border-color: var(--bad-line); animation: shake .4s ease-in-out; }
+  .uml-out { font: 600 18px "JetBrains Mono", monospace; }
+  @media (max-width: 480px) { .sorter__btns { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <a class="back-link" href="../index.html#topics"><span data-icon="left"></span> All topics</a>
+    <button class="btn btn--ghost btn--icon" type="button" data-theme-toggle aria-label="Switch theme"></button>
+  </header>
+</div>
+
+<main class="wrap stack" style="gap:36px">
+  <div class="stack rise" style="gap:6px">
+    <span class="eyebrow">Java UML · Lesson 2</span>
+    <h1 class="page-title">Who can touch it?</h1>
+    <p class="lead">Four symbols. Guess first, then flip.</p>
+  </div>
+
+  <div class="flips rise rise-1" id="flips"></div>
+
+  <section class="stack" style="gap:16px">
+    <h2 class="section-title">Pick a symbol, see who gets in</h2>
+    <div class="card card--pad zones-wrap">
+      <div class="sym-picker" role="group" aria-label="Visibility" id="picker"></div>
+      <div class="zones" aria-live="polite">
+        <div class="zone" data-zone="world">
+          <span class="zone__label"><span class="zone__mark" data-icon="check" data-size="16"></span>Everyone else</span>
+          <div class="zone" data-zone="sub">
+            <span class="zone__label"><span class="zone__mark" data-icon="check" data-size="16"></span>Subclasses in other packages</span>
+            <div class="zone" data-zone="pkg">
+              <span class="zone__label"><span class="zone__mark" data-icon="check" data-size="16"></span>Same package</span>
+              <div class="zone zone--core" data-zone="self">
+                <div class="uml"><div class="uml__name">Account</div><div class="uml__sec"><div class="uml__row"><span class="vis" id="zone-sym">-</span><span>balance : double</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="zones-note" id="zones-note" style="margin-top:14px"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack" style="gap:16px">
+    <div class="row row--between" style="align-items:baseline">
+      <h2 class="section-title">Speed round: tap the symbol</h2>
+      <span class="chip" id="sorter-score">0 / 8</span>
+    </div>
+    <div class="card card--pad sorter" id="sorter"></div>
+  </section>
+
+  <section class="stack" id="check" style="gap:16px">
+    <div class="row row--between" style="align-items:baseline">
+      <h2 class="section-title">Mini quiz</h2>
+      <span class="muted" id="check-count"></span>
+    </div>
+    <div class="card card--pad stack" id="check-body" style="gap:20px"></div>
+  </section>
+
+  <div class="sticky">
+    <strong>Java quirk</strong>
+    In Java, <code>#</code> protected also lets the <em>same package</em> in. Many exams ask this.
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Exam Lab · Java UML</span>
+    <a href="relationships.html">Next: relationships</a>
+  </div>
+</footer>
+</body>
+</html>

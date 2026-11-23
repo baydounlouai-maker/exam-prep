@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam Lab</title>
+<meta name="description" content="Exam prep in small, clickable pieces. Short animated lessons and quizzes, starting with Java UML diagrams.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>try{var t=localStorage.getItem('examlab:theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script type="module" src="assets/js/home.js"></script>
+<style>
+  .hero { display: flex; flex-wrap: wrap; gap: 48px; align-items: center; padding-top: 32px; padding-bottom: 72px; }
+  .hero__copy { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+  .hero__title { font-size: clamp(40px, 6vw, 64px); line-height: 1.02; letter-spacing: -0.035em; }
+  .hero__art { flex: 1 1 400px; min-width: 0; display: flex; justify-content: center; }
+  .scene { position: relative; width: 460px; max-width: 100%; aspect-ratio: 460 / 380; animation: bob 5s ease-in-out infinite; }
+  .scene svg.lines { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--uml); }
+  .scene .lines path { stroke: currentColor; stroke-width: 3; fill: none; stroke-dasharray: 600; animation: draw 1s .7s ease-out both; }
+  .scene .lines path.up { animation: draw .6s 1.2s ease-out both; }
+  .scene .lines polygon { stroke: currentColor; stroke-width: 3; stroke-linejoin: round; fill: var(--surface); animation: rise .4s 1.6s ease-out both; }
+  .scene .uml { position: absolute; width: 34.8%; font-size: clamp(11px, 2.6vw, 13px); box-shadow: 4px 4px 0 var(--shadow); }
+  .scene .uml__name { padding: 6px 10px; }
+  .scene .uml__sec { padding: 6px 10px; }
+  .scene .sticker { position: absolute; left: 57%; top: 41%; animation: sticker .5s 1.9s ease-out both; }
+  .scene .sticker span {
+    display: block; padding: 6px 12px; background: var(--sun); color: var(--on-sun); border: 2px solid var(--line); border-radius: 8px;
+    font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 15px; animation: wiggle 2.4s 2.6s ease-in-out infinite;
+  }
+  .band { background: var(--surface); border-top: 2px solid var(--line); border-bottom: 2px solid var(--line); }
+  .band .wrap { padding-top: 56px; padding-bottom: 56px; }
+  .moves { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .move { display: flex; gap: 16px; align-items: flex-start; padding: 22px; border: 2px solid var(--line); border-radius: 18px; background: var(--soft); }
+  .move__icon { flex: none; width: 52px; height: 52px; border-radius: 14px; border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; background: var(--tint); color: var(--text); }
+  .move__icon--sun { background: var(--sun); color: var(--on-sun); }
+  .move h3 { font-size: 20px; margin-bottom: 2px; }
+  .topic { display: flex; flex-direction: column; gap: 26px; box-shadow: 6px 6px 0 var(--shadow); border-radius: 24px; }
+  .topic__title { font-size: clamp(24px, 3vw, 30px); }
+  .path { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .path__step { display: flex; align-items: center; gap: 10px; }
+  .node {
+    position: relative; width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); color: var(--text);
+    box-shadow: 2px 2px 0 var(--shadow); font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 20px; cursor: pointer; transition: all .2s ease;
+  }
+  .node--boss { background: var(--sun); color: var(--on-sun); }
+  .node.is-done { background: var(--tint); }
+  .node[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: 4px 4px 0 var(--shadow); transform: scale(1.1); }
+  .node__tick { position: absolute; right: -6px; top: -6px; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--on-accent); border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; }
+  .connector { width: 36px; border-top: 3px dashed var(--line); }
+  .peek { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; padding: 18px 20px; border-radius: 16px; background: var(--soft); border: 2px dashed var(--line); }
+  .peek__title { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 20px; }
+  .soon { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .soon__card { display: flex; gap: 16px; align-items: center; padding: 22px; border: 2px dashed var(--faint-line); border-radius: 20px; color: var(--muted); }
+  .soon__card strong { color: var(--text); display: block; }
+  @media (max-width: 520px) { .connector { width: 14px; } .node { width: 50px; height: 50px; font-size: 18px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <img src="assets/favicon.svg" width="34" height="34" alt="">
+      <span>Exam Lab</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a class="nav__link" href="#topics">Topics</a>
+      <a class="nav__link" href="java-uml/relationships.html">Cheat sheet</a>
+      <a class="btn" href="java-uml/quiz.html">Quiz me</a>
+      <button class="btn btn--ghost btn--icon" type="button" data-theme-toggle aria-label="Switch theme"></button>
+    </nav>
+  </header>
+</div>
+
+<main>
+  <section class="wrap hero">
+    <div class="hero__copy rise">
+      <span class="chip" style="align-self:flex-start"><span class="pulse-dot"></span>Topic 1 is live: Java UML</span>
+      <h1 class="hero__title">Exam prep in small, <span class="hl">clickable</span> pieces.</h1>
+      <p class="lead" style="max-width:460px">Watch it move. Poke at it. Then quiz yourself. No walls of text.</p>
+      <div class="row" style="padding-top:6px">
+        <a class="btn btn--primary btn--lg" id="start-btn" href="java-uml/class-box.html">Start Java UML <span data-icon="right"></span></a>
+        <a class="btn btn--lg" href="java-uml/quiz.html"><span data-icon="bolt"></span> Quick quiz</a>
+      </div>
+    </div>
+
+    <div class="hero__art" role="img" aria-label="Animated UML diagram: Dog and Cat both inherit from the abstract class Animal">
+      <div class="scene">
+        <svg class="lines" viewBox="0 0 460 380" aria-hidden="true">
+          <path d="M100 248 V200 H360 V248"></path>
+          <path class="up" d="M230 200 V130"></path>
+          <polygon points="217,130 230,108 243,130"></polygon>
+        </svg>
+        <div class="uml rise" style="left:32.6%;top:2%;animation-delay:.1s">
+          <div class="uml__name is-abstract"><span class="uml__title">Animal</span></div>
+          <div class="uml__sec"># name : String</div>
+          <div class="uml__sec">+ speak() : void</div>
+        </div>
+        <div class="uml rise" style="left:4.3%;top:65.3%;animation-delay:.3s">
+          <div class="uml__name">Dog</div>
+          <div class="uml__sec">+ speak() : void</div>
+        </div>
+        <div class="uml rise" style="left:60.9%;top:65.3%;animation-delay:.45s">
+          <div class="uml__name">Cat</div>
+          <div class="uml__sec">+ purr() : void</div>
+        </div>
+        <div class="sticker" aria-hidden="true"><span>is-a!</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap stack">
+      <h2 class="section-title">Every topic, three moves</h2>
+      <div class="moves">
+        <div class="move"><div class="move__icon" data-icon="eye" data-size="26"></div><div><h3>1. Watch</h3><p class="muted">A short animation shows the idea.</p></div></div>
+        <div class="move"><div class="move__icon move__icon--sun" data-icon="hand" data-size="26"></div><div><h3>2. Play</h3><p class="muted">Click, flip and build it yourself.</p></div></div>
+        <div class="move"><div class="move__icon" data-icon="check" data-size="26"></div><div><h3>3. Quiz</h3><p class="muted">Instant feedback that says why.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="topics" class="wrap stack" style="padding-top:64px">
+    <div class="row row--between" style="align-items:baseline">
+      <h2 class="section-title">Topics</h2>
+      <span class="muted" id="topic-count"></span>
+    </div>
+    <div id="topic-list" class="stack"></div>
+    <div class="soon" id="soon-list"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Exam Lab · progress is saved in this browser only</span>
+    <a href="https://github.com/baydounlouai-maker/exam-prep">Source on GitHub</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boss quiz · Java UML · Exam Lab</title>
+<meta name="description" content="Ten mixed questions on Java UML class diagrams, with instant feedback.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script>try{var t=localStorage.getItem('examlab:theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script type="module" src="quiz.js"></script>
+<style>
+  .qcard { display: flex; flex-direction: column; gap: 22px; box-shadow: 6px 6px 0 var(--shadow); }
+  .qtitle { font-size: clamp(22px, 3.2vw, 30px); line-height: 1.2; }
+  .diagram { padding: 18px; border-radius: 16px; background: var(--soft); border: 2px dashed var(--faint-line); }
+  .flame.is-hot svg { animation: flicker .8s ease-in-out infinite; }
+  .ring { position: relative; width: 170px; height: 170px; border-radius: 50%; border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; animation: pop .6s ease-out both; }
+  .ring__inner { width: 124px; height: 124px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); display: flex; align-items: center; justify-content: center; font: 700 40px "Space Grotesk", sans-serif; }
+  .results { display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; box-shadow: 6px 6px 0 var(--shadow); }
+  .mistakes { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 10px; text-align: left; }
+  .mistake { padding: 12px 16px; border-radius: 12px; background: var(--sun-tint); border: 2px solid var(--line); }
+</style>
+</head>
+<body>
+<div class="wrap wrap--narrow">
+  <header class="site-header">
+    <a class="back-link" href="../index.html#topics"><span data-icon="x"></span> Quit</a>
+    <div class="row" style="gap:10px">
+      <span class="chip flame" id="streak" aria-label="Streak: 0"></span>
+      <span class="chip chip--accent" id="score">0 pts</span>
+      <button class="btn btn--ghost btn--icon" type="button" data-theme-toggle aria-label="Switch theme"></button>
+    </div>
+  </header>
+</div>
+
+<main class="wrap wrap--narrow stack" style="gap:22px">
+  <div class="stack" style="gap:8px">
+    <div class="row row--between" style="font-size:14px;font-weight:600"><span>Java UML · Boss quiz</span><span id="counter"></span></div>
+    <div class="bar" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar"><span></span></div>
+  </div>
+  <div id="quiz" aria-live="polite"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap wrap--narrow">
+    <span>Score 80% or more to clear the topic.</span>
+    <a href="relationships.html">Cheat sheet</a>
+  </div>
+</footer>
+</body>
+</html>
