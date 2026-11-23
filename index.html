@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Exam Lab</title>
-<meta name="description" content="Exam prep in small, clickable pieces. Short animated lessons and quizzes, starting with Java UML diagrams.">
+<meta name="description" content="Exam prep in small, clickable pieces. Short animated lessons and quizzes: Java UML diagrams and IC3 Computing Fundamentals.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,9 +66,9 @@
       <span>Exam Lab</span>
     </a>
     <nav class="nav" aria-label="Main">
-      <a class="nav__link" href="#topics">Topics</a>
+      <a class="nav__link" href="#courses">Courses</a>
       <a class="nav__link" href="java-uml/relationships.html">Cheat sheet</a>
-      <a class="btn" href="java-uml/quiz.html">Quiz me</a>
+      <a class="btn" href="ic3/exam.html">Mock exam</a>
       <button class="btn btn--ghost btn--icon" type="button" data-theme-toggle aria-label="Switch theme"></button>
     </nav>
   </header>
@@ -77,12 +77,12 @@
 <main>
   <section class="wrap hero">
     <div class="hero__copy rise">
-      <span class="chip" style="align-self:flex-start"><span class="pulse-dot"></span>Topic 1 is live: Java UML</span>
+      <span class="chip" style="align-self:flex-start"><span class="pulse-dot"></span>New: IC3 Computing Fundamentals</span>
       <h1 class="hero__title">Exam prep in small, <span class="hl">clickable</span> pieces.</h1>
       <p class="lead" style="max-width:460px">Watch it move. Poke at it. Then quiz yourself. No walls of text.</p>
       <div class="row" style="padding-top:6px">
-        <a class="btn btn--primary btn--lg" id="start-btn" href="java-uml/class-box.html">Start Java UML <span data-icon="right"></span></a>
-        <a class="btn btn--lg" href="java-uml/quiz.html"><span data-icon="bolt"></span> Quick quiz</a>
+        <a class="btn btn--primary btn--lg" href="#courses">Browse courses <span data-icon="right"></span></a>
+        <a class="btn btn--lg" href="ic3/exam.html"><span data-icon="bolt"></span> IC3 mock exam</a>
       </div>
     </div>
 
@@ -113,7 +113,7 @@
 
   <section class="band">
     <div class="wrap stack">
-      <h2 class="section-title">Every topic, three moves</h2>
+      <h2 class="section-title">Every course, three moves</h2>
       <div class="moves">
         <div class="move"><div class="move__icon" data-icon="eye" data-size="26"></div><div><h3>1. Watch</h3><p class="muted">A short animation shows the idea.</p></div></div>
         <div class="move"><div class="move__icon move__icon--sun" data-icon="hand" data-size="26"></div><div><h3>2. Play</h3><p class="muted">Click, flip and build it yourself.</p></div></div>
@@ -122,9 +122,9 @@
     </div>
   </section>
 
-  <section id="topics" class="wrap stack" style="padding-top:64px">
+  <section id="courses" class="wrap stack" style="padding-top:64px">
     <div class="row row--between" style="align-items:baseline">
-      <h2 class="section-title">Topics</h2>
+      <h2 class="section-title">Courses</h2>
       <span class="muted" id="topic-count"></span>
     </div>
     <div id="topic-list" class="stack"></div>

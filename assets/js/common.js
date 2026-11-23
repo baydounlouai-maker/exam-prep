@@ -32,11 +32,11 @@ export function isLessonDone(topic, lesson) {
   return !!loadProgress()[topic]?.done?.[lesson];
 }
 
-export function saveQuizScore(topic, pct) {
+export function saveQuizScore(topic, pct, pass = 80, lessonId = 'quiz') {
   const data = loadProgress();
   const t = (data[topic] ||= {});
   t.quizBest = Math.max(t.quizBest || 0, pct);
-  if (pct >= 80) (t.done ||= {}).quiz = true;
+  if (pct >= pass) (t.done ||= {})[lessonId] = true;
   saveProgress(data);
   return t.quizBest;
 }
@@ -129,6 +129,12 @@ export function shuffle(list) {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+/** A copy of a multiple-choice question with its options in random order. */
+export function shuffleOptions(q) {
+  const idx = shuffle(q.opts.map((_, i) => i));
+  return { ...q, opts: idx.map((i) => q.opts[i]), answer: idx.indexOf(q.answer) };
 }
 
 /** Re-run a CSS animation on an element by toggling a class. */
@@ -252,7 +258,7 @@ export function runCheck(root, questions, { onProgress = () => {}, onFinish }) {
       fillIcons(root);
       return;
     }
-    const q = questions[i];
+    const q = shuffleOptions(questions[i]);
     root.innerHTML = `<div class="stack rise" style="gap:18px">
       <p style="font-size:19px;font-weight:600">${q.prompt}</p>
       ${q.code ? codeBlock(q.code) : ''}

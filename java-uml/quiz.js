@@ -1,12 +1,7 @@
-import {
-  initPage, $, esc, shuffle, burst, ICON, codeBlock, stageHTML, relById,
-  optionsHTML, wireOptions, feedbackHTML, saveQuizScore, fillIcons,
-} from '../assets/js/common.js';
+import { initPage } from '../assets/js/common.js';
+import { startExam } from '../assets/js/exam.js';
 
 initPage();
-
-const TOPIC = 'java-uml';
-const PASS = 80;
 
 // dia: draw a relationship between two classes. code: show Java. Otherwise text only.
 const QUESTIONS = [
@@ -44,95 +39,9 @@ const QUESTIONS = [
     why: 'Visibility, name(params), then : ReturnType.' },
 ];
 
-const quiz = $('#quiz');
-let order = [];
-let i = 0;
-let score = 0;
-let streak = 0;
-let correct = 0;
-let wrong = [];
-
-function setHeader(answered = false) {
-  const total = order.length;
-  const done = i >= total;
-  $('#counter').textContent = done ? 'Done!' : `Question ${i + 1} of ${total}`;
-  const pct = done ? 100 : Math.round(((i + (answered ? 1 : 0)) / total) * 100);
-  $('#bar span').style.width = pct + '%';
-  $('#bar').setAttribute('aria-valuenow', String(pct));
-  $('#score').textContent = `${score} pts`;
-  const s = $('#streak');
-  s.innerHTML = `${ICON.flame(18)} ${streak}`;
-  s.setAttribute('aria-label', `Streak: ${streak}`);
-  s.classList.toggle('is-hot', streak >= 2);
-}
-
-function start() {
-  order = shuffle(QUESTIONS);
-  i = 0; score = 0; streak = 0; correct = 0; wrong = [];
-  show();
-}
-
-function show() {
-  setHeader();
-  if (i >= order.length) return results();
-  const q = order[i];
-  let media = '';
-  if (q.dia) {
-    const rel = relById(q.dia.rel);
-    media = `<div class="diagram" role="img" aria-label="Diagram: ${esc(q.dia.left)} connected to ${esc(q.dia.right)}">${stageHTML(rel, q.dia)}</div>`;
-  } else if (q.code) {
-    media = codeBlock(q.code);
-  }
-  quiz.innerHTML = `<div class="card card--pad qcard rise">
-    <h1 class="qtitle">${q.prompt}</h1>
-    ${media}
-    <div class="opts">${optionsHTML(q)}</div>
-    <div data-fb></div>
-  </div>`;
-
-  wireOptions(quiz, q, (right) => {
-    if (right) {
-      correct++;
-      score += 10 + streak * 5;
-      streak++;
-    } else {
-      streak = 0;
-      wrong.push(q);
-    }
-    setHeader(true);
-    const last = i === order.length - 1;
-    const title = right ? (streak >= 3 ? `On fire! ${streak} in a row.` : 'Nice one!') : 'Not quite.';
-    const fb = quiz.querySelector('[data-fb]');
-    fb.innerHTML = feedbackHTML(right, title, q.why, last ? 'See results' : 'Next question');
-    if (right) burst(fb.querySelector('[data-burst]'));
-    const next = fb.querySelector('[data-next]');
-    next.focus({ preventScroll: true });
-    next.addEventListener('click', () => { i++; show(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-  });
-}
-
-function results() {
-  const total = order.length;
-  const pct = Math.round((correct / total) * 100);
-  const best = saveQuizScore(TOPIC, pct);
-  const passed = pct >= PASS;
-  quiz.innerHTML = `<div class="card card--pad results rise">
-    <div class="ring" role="img" aria-label="Score: ${correct} of ${total}" style="background:conic-gradient(var(--accent) ${pct}%, var(--tint) 0)">
-      <div class="ring__inner">${correct}/${total}</div>
-    </div>
-    <h1 class="qtitle">${passed ? 'Topic cleared!' : 'Almost there. Review and retry.'}</h1>
-    <p class="muted">${score} pts · best score ${best}%${passed ? '' : ` · you need ${PASS}%`}</p>
-    ${wrong.length ? `<div class="mistakes"><strong>Review these:</strong>${wrong.map((q) =>
-      `<div class="mistake"><strong>${q.opts[q.answer]}</strong> · ${esc(q.why)}</div>`).join('')}</div>` : ''}
-    <div class="row" style="justify-content:center;gap:12px">
-      <button class="btn btn--primary" type="button" id="again"><span data-icon="redo"></span> Try again</button>
-      <a class="btn" href="relationships.html">Review arrows</a>
-      <a class="btn btn--ghost" href="../index.html#topics">All topics</a>
-    </div>
-  </div>`;
-  fillIcons(quiz);
-  if (passed) burst(quiz.querySelector('.ring'));
-  $('#again').addEventListener('click', start);
-}
-
-start();
+startExam({
+  topic: 'java-uml',
+  questions: QUESTIONS,
+  pass: 80,
+  review: { href: 'relationships.html', label: 'Review arrows' },
+});

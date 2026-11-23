@@ -164,7 +164,7 @@ svg { flex: none; }
   border: 2px solid var(--line); border-radius: 6px; box-shadow: 4px 4px 0 var(--shadow);
   transform: rotate(-1.5deg);
 }
-.sticky strong { display: block; font-family: "Space Grotesk", sans-serif; font-size: 18px; }
+.sticky > strong { display: block; font-family: "Space Grotesk", sans-serif; font-size: 18px; }
 .sticky code { font-weight: 600; }
 
 /* ---------- Progress ---------- */
@@ -344,3 +344,18 @@ svg { flex: none; }
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- Exam pages (shared by every course) ---------- */
+
+.qcard { display: flex; flex-direction: column; gap: 22px; box-shadow: 6px 6px 0 var(--shadow); }
+.qtitle { font-size: clamp(22px, 3.2vw, 30px); line-height: 1.2; }
+.diagram { padding: 18px; border-radius: 16px; background: var(--soft); border: 2px dashed var(--faint-line); }
+.flame.is-hot svg { animation: flicker .8s ease-in-out infinite; }
+.ring { position: relative; width: 170px; height: 170px; border-radius: 50%; border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; animation: pop .6s ease-out both; }
+.ring__inner { width: 124px; height: 124px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); display: flex; align-items: center; justify-content: center; font: 700 36px "Space Grotesk", sans-serif; }
+.results { display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; box-shadow: 6px 6px 0 var(--shadow); }
+.mistakes { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 10px; text-align: left; }
+.mistake { padding: 12px 16px; border-radius: 12px; background: var(--sun-tint); border: 2px solid var(--line); }
+
+/* Thin reading-progress bar at the very top of long lesson pages */
+.scroll-progress { position: fixed; left: 0; top: 0; height: 4px; width: 100%; background: var(--accent); transform-origin: left center; transform: scaleX(0); z-index: 20; }

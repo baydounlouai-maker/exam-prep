@@ -22,7 +22,7 @@ function renderTopics() {
     card.innerHTML = `
       <div class="row row--between" style="align-items:flex-start;gap:20px">
         <div class="stack" style="gap:8px;min-width:0">
-          <span class="tag">Topic ${ti + 1}</span>
+          <span class="tag">Course ${ti + 1}</span>
           <h3 class="topic__title">${esc(topic.title)}</h3>
           <span class="muted">${esc(topic.blurb)}</span>
         </div>
@@ -74,8 +74,6 @@ function renderTopics() {
       }
     });
 
-    // Point the hero button at the first unfinished lesson of topic 1.
-    if (ti === 0) document.getElementById('start-btn').href = topic.lessons[pick].href;
   });
 
   fillIcons(list);
@@ -84,10 +82,10 @@ function renderTopics() {
 renderTopics();
 
 document.getElementById('topic-count').textContent =
-  `${TOPICS.length} live · more on the way`;
+  `${TOPICS.length} courses · more on the way`;
 
 document.getElementById('soon-list').innerHTML = COMING_SOON.map((name, i) => `
   <div class="soon__card">
     ${ICON.lock(28)}
-    <div><strong>Topic ${TOPICS.length + i + 1} · ${esc(name)}</strong><span style="font-size:14px">Coming soon</span></div>
+    <div><strong>Course ${TOPICS.length + i + 1} · ${esc(name)}</strong><span style="font-size:14px">Coming soon</span></div>
   </div>`).join('');
