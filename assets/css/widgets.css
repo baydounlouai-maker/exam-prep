@@ -1,4 +1,4 @@
-/* Styles for the data-driven lesson widgets (ic3/widgets.js). Uses tokens from assets/css/style.css. */
+/* Styles for the data-driven lesson widgets (assets/js/widgets.js). Uses tokens from assets/css/style.css. */
 
 .block { display: flex; flex-direction: column; gap: 16px; scroll-margin-top: 24px; }
 .block__head { display: flex; gap: 14px; align-items: flex-start; }
@@ -189,3 +189,70 @@
 .tree__file { padding: 4px 10px; border-radius: 8px; border: 2px solid transparent; background: none; font: 500 15px "JetBrains Mono", monospace; cursor: pointer; color: var(--text); }
 .tree__file:hover { border-color: var(--line); }
 .tree__file.is-on { background: var(--accent); color: var(--on-accent); border-color: var(--line); }
+
+/* ---------- Matrix ---------- */
+.mx { display: flex; flex-direction: column; gap: 16px; }
+.mx__wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 12px; }
+.mx__y { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; text-align: right; font-size: 13px; color: var(--muted); max-width: 120px; }
+.mx__y b, .mx__x b { font: 700 15px/1.2 "Space Grotesk", sans-serif; color: var(--text); }
+.mx__x { grid-column: 2; display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--muted); align-items: baseline; text-align: center; }
+.mx__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 0 0 10px 10px; border-left: 4px solid var(--line); border-bottom: 4px solid var(--line); }
+.mx__q {
+  position: relative; min-height: 130px; padding: 14px; border-radius: 14px; border: 2px solid var(--line); background: var(--soft); color: var(--text);
+  box-shadow: 3px 3px 0 var(--shadow); cursor: pointer; text-align: left; transition: background .25s ease, transform .15s ease; overflow: hidden;
+}
+.mx__q:hover { transform: translateY(-2px); }
+.mx__cover { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; font: 700 40px "Space Grotesk", sans-serif; color: var(--accent-text); transition: opacity .25s ease; }
+.mx__cover small { font: 500 13px Inter, sans-serif; color: var(--muted); }
+.mx__face { display: flex; flex-direction: column; gap: 6px; opacity: 0; transform: scale(.9); transition: opacity .3s ease, transform .3s ease; }
+.mx__face strong { font: 700 18px/1.2 "Space Grotesk", sans-serif; }
+.mx__face span { font-size: 14px; color: var(--muted); }
+.mx__q.is-open .mx__cover { opacity: 0; }
+.mx__q.is-open .mx__face { opacity: 1; transform: none; }
+.mx__q.is-open.mx__q--sun { background: var(--sun); color: var(--on-sun); }
+.mx__q.is-open.mx__q--sun .mx__face span { color: var(--on-sun); }
+.mx__q.is-open.mx__q--indigo { background: var(--accent); color: var(--on-accent); }
+.mx__q.is-open.mx__q--indigo .mx__face span { color: var(--on-accent); opacity: .9; }
+.mx__q.is-open.mx__q--tint { background: var(--tint); }
+.mx__q.is-open.mx__q--plain { background: var(--surface); }
+.mx.is-playing .mx__q { outline: 3px dashed transparent; }
+.mx.is-playing .mx__q:hover { outline-color: var(--accent); }
+.mx__q.is-right { box-shadow: 0 0 0 4px var(--ok-line); animation: bump .4s ease-out; }
+.mx__q.is-wrong { box-shadow: 0 0 0 4px var(--bad-line); animation: shake .4s ease-in-out; }
+.mx__game { display: flex; flex-direction: column; gap: 12px; }
+.mx__game:empty { display: none; }
+.mx__ask { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 14px; border: 2px dashed var(--line); background: var(--soft); }
+.mx__ask strong { font: 700 20px/1.3 "Space Grotesk", sans-serif; }
+@media (max-width: 560px) { .mx__q { min-height: 110px; padding: 10px; } .mx__face strong { font-size: 15px; } .mx__face span { font-size: 12px; } .mx__y { max-width: 64px; font-size: 11px; } }
+
+/* ---------- Funnel ---------- */
+.fun { display: flex; flex-direction: column; gap: 14px; }
+.fun__rows { display: flex; flex-direction: column; gap: 8px; }
+.fun__stage { display: grid; grid-template-columns: minmax(90px, 130px) minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.fun__name { font-weight: 700; }
+.fun__track { height: 30px; border-radius: 10px; border: 2px solid var(--line); background: var(--soft); overflow: hidden; }
+.fun__fill { display: block; height: 100%; background: var(--accent); border-right: 2px solid var(--line); transition: width .35s cubic-bezier(.2,.8,.2,1); }
+.fun__stage:last-of-type .fun__fill { background: var(--sun); }
+.fun__val { font-size: 16px; font-weight: 600; min-width: 80px; text-align: right; }
+.fun__rate { display: grid; grid-template-columns: minmax(90px, 130px) minmax(0, 1fr) auto; gap: 12px; align-items: center; font-size: 14px; color: var(--muted); padding-left: 16px; }
+.fun__rate input { width: 100%; accent-color: var(--accent); }
+.fun__rate b { color: var(--accent-text); min-width: 48px; text-align: right; }
+.fun__sum { font-size: 18px; }
+
+/* ---------- Cycle ---------- */
+.cyc { display: flex; flex-direction: column; gap: 16px; align-items: center; }
+.cyc__ring { position: relative; width: 100%; max-width: 560px; aspect-ratio: 1.25; }
+.cyc__track { position: absolute; inset: 10% 10%; border: 3px dashed var(--line); border-radius: 50%; animation: spin 40s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.cyc__center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 46%; text-align: center; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.cyc__center strong { font: 700 17px/1.2 "Space Grotesk", sans-serif; }
+.cyc__center em { font-style: normal; font-weight: 600; color: var(--accent-text); }
+.cyc__node {
+  position: absolute; transform: translate(-50%, -50%); width: 34%; min-height: 56px; padding: 8px 10px; border-radius: 14px; border: 2px solid var(--line);
+  background: var(--surface); color: var(--text); box-shadow: 3px 3px 0 var(--shadow); font: 600 13px/1.25 Inter, sans-serif; cursor: pointer;
+  display: flex; gap: 8px; align-items: center; text-align: left;
+}
+.cyc__n { flex: none; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--line); background: var(--sun); color: var(--on-sun); display: inline-flex; align-items: center; justify-content: center; font-size: 13px; }
+.cyc__node[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.cyc__node.is-pulse { animation: bump .5s ease-out; }
+@media (max-width: 520px) { .cyc__ring { aspect-ratio: .9; } .cyc__node { width: 42%; font-size: 12px; } .cyc__center { width: 52%; font-size: 12px; } }

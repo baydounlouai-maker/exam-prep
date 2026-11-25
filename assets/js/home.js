@@ -25,6 +25,7 @@ function renderTopics() {
           <span class="tag">Course ${ti + 1}</span>
           <h3 class="topic__title">${esc(topic.title)}</h3>
           <span class="muted">${esc(topic.blurb)}</span>
+          ${topic.extras ? `<div class="row" style="gap:8px;margin-top:4px">${topic.extras.map((x) => `<a class="btn btn--sun" style="min-height:38px;padding:4px 14px;font-size:14px" href="${esc(x.href)}">${esc(x.label)}</a>`).join('')}</div>` : ''}
         </div>
         <div class="stack" style="gap:8px;min-width:220px">
           <div class="row row--between" style="font-size:14px;font-weight:600"><span>Progress</span><span>${pct}%${best != null ? ` · best quiz ${best}%` : ''}</span></div>

@@ -1,0 +1,181 @@
+import { titleScene, cardsScene, flowScene, rowsScene, compareScene, recapScene } from '../../assets/js/video.js';
+
+export default {
+  title: 'Where are we now?',
+  lead: 'Strategic analysis: how **digitally mature** is the business, and what pushes or blocks change?',
+  video: {
+    scenes: [
+      titleScene({
+        eyebrow: 'E-Business · Chapter 5', title: 'Where are<br>we now?', sub: 'Lesson 4 · <span class="v-hl">Situation analysis</span>', badge: '4',
+        chips: ['Stage model', 'Maturity', 'Drivers & barriers'],
+        says: ['Lesson four: before you plan, you need to know where the business stands today.', 'We\'ll use the stage model, the capability maturity model, and the drivers and barriers to transformation.'],
+      }),
+      cardsScene({
+        name: 'Situation analysis', heading: 'Strategic <span class="v-hl">situation analysis</span>', cols: 3, height: 150,
+        items: [
+          { title: 'Resource analysis', text: 'What can we do?' },
+          { title: 'Portfolio analysis', text: 'Which systems matter?' },
+          { title: 'SWOT analysis', text: 'Inside and outside', tone: 'cream' },
+          { title: 'Demand analysis', text: 'Who buys online?' },
+          { title: 'Competitor analysis', text: 'Who are we up against?' },
+          { title: 'Stage models', text: 'Digital-specific', tone: 'indigo' },
+        ],
+        says: [
+          'Strategic situation analysis uses several techniques.',
+          'Resource analysis,',
+          'portfolio analysis,',
+          'SWOT analysis,',
+          'demand analysis,',
+          'competitor analysis,',
+          'and two that are specific to digital business: stage models of development, and spotting sell-side, buy-side and value-network threats and opportunities.',
+        ],
+      }),
+      flowScene({
+        name: 'The stage model', heading: 'Stage model of digital business <span style="font-size:28px;font-weight:500;color:#4A4A63">· Table 5.3</span>',
+        steps: [
+          { title: 'Web presence', text: 'brochureware · one department · limited strategy' },
+          { title: 'E-commerce', text: 'buying or selling online · not well integrated', tone: 'tint' },
+          { title: 'Integrated e-commerce', text: 'joined to ERP / legacy systems · personalisation', tone: 'cream' },
+          { title: 'Digital business', text: 'whole value network integrated · "extraprise"', tone: 'sun' },
+        ],
+        says: [
+          'Chaffey\'s stage model shows four steps of digital development.',
+          'Stage one, web presence: brochureware run by one department, with limited strategy.',
+          'Stage two, e-commerce: transactions on the buy-side or the sell-side, but not well integrated with business strategy.',
+          'Stage three, integrated e-commerce: buy and sell sides joined to ERP or legacy systems, with personalised services.',
+          { say: 'Stage four, digital business: every internal process and partner is integrated. The scope reaches beyond the company, the extraprise.', hold: 0.8 },
+        ],
+      }),
+      rowsScene({
+        name: 'Capability maturity', heading: 'Capability maturity <span style="font-size:28px;font-weight:500;color:#4A4A63">· Table 5.4</span>',
+        items: [
+          { title: 'Initial · digital business unplanned', text: 'ad hoc, even chaotic' },
+          { title: 'Repeatable · digital business aware', text: 'basic processes, not yet in planning' },
+          { title: 'Defined · digital business enabled', text: 'central strategy and planning', tone: 'tint' },
+          { title: 'Managed · digital business integrated', text: 'in unit plans, measured in detail', tone: 'cream' },
+          { title: 'Optimised · extended enterprise', text: 'core to corporate strategy, always improving', tone: 'sun' },
+        ],
+        says: [
+          'The capability maturity model has five levels, from Carnegie Mellon, renamed for e-business.',
+          'Level one, initial: digital business is unplanned, ad hoc, even chaotic.',
+          'Level two, repeatable: the business is aware. Basic online processes repeat past successes, but aren\'t part of planning.',
+          'Level three, defined: digital business is enabled, with a central strategy and planning process.',
+          'Level four, managed: digital business is integrated into unit plans and measured in detail.',
+          'Level five, optimised: the extended enterprise. Digital is core to corporate strategy and constantly improved.',
+        ],
+      }),
+      compareScene({
+        name: 'Drivers and barriers', heading: 'Digital transformation <span style="font-size:28px;font-weight:500;color:#4A4A63">· Solis</span>',
+        left: { tag: 'DRIVERS', title: 'What pushes change', tone: 'tint', items: ['Digital ethnography: new customer journeys', 'Digital darwinism: adapt or die', 'Behavioural economics: new touchpoints', 'Leaders lead: top-down empowerment'] },
+        right: { tag: 'BARRIERS', title: 'What blocks change', tone: 'cream', items: ['Education: execs don\'t know what they don\'t know', 'Tunnel vision: silos', 'Cause-effect: no dedicated resources', 'Data paralysis: no common vision'] },
+        footer: 'Adapt or die',
+        says: [
+          'Brian Solis lists what drives digital transformation, and what blocks it.',
+          'Drivers: digital ethnography, which means studying the new customer journey; digital darwinism, adapt or die; behavioural economics, as digital opens new touchpoints; and leaders who lead from the top.',
+          'Barriers: lack of education among executives, tunnel vision from silos, no dedicated resources, and data paralysis without a common vision.',
+          'Digital darwinism is the one to remember: adapt to new technology, or die.',
+        ],
+      }),
+      recapScene({
+        points: ['Stage model: web presence → e-commerce → integrated → digital business.', 'Maturity: initial → repeatable → defined → managed → optimised.', 'Solis: drivers push change, barriers block it.'],
+        says: ['Quick recap.', 'The stage model runs from web presence to e-commerce, integrated e-commerce and digital business.', 'Maturity climbs from initial to repeatable, defined, managed and optimised.', 'And Solis shows the drivers that push change and the barriers that block it.', 'Now try the activities and the mini quiz below.'],
+      }),
+    ],
+    checkpoints: [
+      { after: 2, q: 'At which stage are buy- and sell-side FIRST joined to ERP or legacy systems?', opts: ['E-commerce', 'Integrated e-commerce', 'Digital business'], answer: 1, why: 'Stage 3, integrated e-commerce, also adds personalised services.' },
+    ],
+  },
+  blocks: [
+    {
+      type: 'explorer',
+      title: 'The four stages up close',
+      short: 'Stage model',
+      intro: 'Table 5.3 compares each stage on **services**, **scope**, **transformation** and **strategy**.',
+      items: [
+        { name: '1 · Web presence', tag: 'brochureware', points: ['**Services:** brochureware, product catalogue, customer service', '**Scope:** isolated departments (e.g. marketing)', '**Transformation:** technology infrastructure', '**Strategy:** limited'] },
+        { name: '2 · E-commerce', tag: 'transactions', points: ['**Services:** transactional e-commerce on buy-side **or** sell-side', '**Scope:** cross-organisational', '**Transformation:** technology + new e-commerce responsibilities', '**Strategy:** sell-side strategy, not well integrated with business strategy'] },
+        { name: '3 · Integrated e-commerce', tag: 'ERP + personalisation', points: ['**Services:** buy- and sell-side integrated with ERP or legacy systems; personalised services', '**Scope:** cross-organisational', '**Transformation:** internal processes and company structure', '**Strategy:** e-commerce strategy integrated with business strategy (value-chain approach)'] },
+        { name: '4 · Digital business', tag: 'extraprise', points: ['**Services:** full integration of all internal processes and the value network', '**Scope:** across the enterprise and beyond (**extraprise**)', '**Transformation:** digital culture, processes linked with partners', '**Strategy:** digital strategy is part of business strategy'] },
+      ],
+    },
+    {
+      type: 'order',
+      title: 'Climb the maturity ladder',
+      short: 'Maturity levels',
+      intro: 'Capability maturity model (Table 5.4): Carnegie Mellon levels with the Atos e-business names.',
+      prompt: 'Tap the levels from least to most mature.',
+      steps: [
+        '**Initial**: digital business unplanned',
+        '**Repeatable**: digital business aware',
+        '**Defined**: digital business enabled',
+        '**Managed**: digital business integrated',
+        '**Optimised**: extended enterprise',
+      ],
+      done: 'Tip: "ad hoc and chaotic" in a case = Level 1. "Part of corporate strategy, always piloting new ideas" = Level 5.',
+    },
+    {
+      type: 'sort',
+      title: 'Driver or barrier?',
+      short: 'Drivers & barriers',
+      intro: 'Solis (2014): what pushes digital transformation and what holds it back.',
+      prompt: 'does this push or block change?',
+      buckets: [{ id: 'd', label: 'Driver', hint: 'pushes change' }, { id: 'b', label: 'Barrier', hint: 'blocks change' }],
+      items: [
+        { text: 'Digital ethnography: studying the new customer journey', b: 'd' },
+        { text: 'Digital darwinism: adapt to new technology or die', b: 'd' },
+        { text: 'Behavioural economics: digital opens new touchpoints', b: 'd' },
+        { text: 'Leaders lead: empowerment from the top', b: 'd' },
+        { text: 'Executives don\'t know what they don\'t know', b: 'b', why: 'That\'s the "education" barrier.' },
+        { text: 'Departments work in silos (tunnel vision)', b: 'b' },
+        { text: 'No dedicated resources (cause-effect)', b: 'b' },
+        { text: 'Lots of data but no common vision (data paralysis)', b: 'b' },
+      ],
+    },
+    {
+      type: 'flips',
+      title: 'Situation analysis toolkit',
+      short: 'Toolkit',
+      intro: 'Figure 5.7: the techniques. The last two are specific to digital business.',
+      cards: [
+        { front: 'Resource analysis', back: 'What our **people, money and systems** can do.' },
+        { front: 'Portfolio analysis', back: 'Which **information systems** matter now and in future (Lesson 5).' },
+        { front: 'SWOT', back: '**Internal** strengths and weaknesses, **external** opportunities and threats.' },
+        { front: 'Demand analysis', back: 'How many customers **use and buy online**.' },
+        { front: 'Stage models', back: '**Digital-specific:** how far along digital development the firm is.' },
+        { front: 'Sell / buy / value network', back: '**Digital-specific:** opportunities and threats on each side.' },
+      ],
+    },
+  ],
+  quiz: [
+    {
+      prompt: '<strong>Mini case:</strong> A shop has a website showing products and opening hours, run by the marketing team. Nobody can buy online. Which stage?',
+      opts: ['Web presence', 'E-commerce', 'Integrated e-commerce', 'Digital business'],
+      answer: 0,
+      why: 'Brochureware run by one department = stage 1, web presence.',
+    },
+    {
+      prompt: 'What does "extraprise" describe in the stage model?',
+      opts: ['A very large company', 'Scope reaching beyond the company to partners', 'A start-up', 'An outsourced IT team'],
+      answer: 1,
+      why: 'Stage 4: integration across the enterprise and the wider value network.',
+    },
+    {
+      prompt: '<strong>Mini case:</strong> A firm repeats online campaigns that worked before, but digital isn\'t part of its planning yet. Maturity level?',
+      opts: ['Level 1 Initial', 'Level 2 Repeatable', 'Level 3 Defined', 'Level 4 Managed'],
+      answer: 1,
+      why: 'Repeatable / digital business aware: basic processes, not yet in planning.',
+    },
+    {
+      prompt: '"Adapt to new technology or die" is Solis\'s…',
+      opts: ['Digital ethnography', 'Digital darwinism', 'Data paralysis', 'Tunnel vision'],
+      answer: 1,
+      why: 'Digital darwinism is a driver of transformation.',
+    },
+    {
+      prompt: 'Which is a BARRIER to digital transformation?',
+      opts: ['Leaders lead', 'Behavioural economics', 'Tunnel vision from silos', 'Digital ethnography'],
+      answer: 2,
+      why: 'Silos stop teams collaborating on customer experience.',
+    },
+  ],
+};

@@ -1,0 +1,212 @@
+import { titleScene, cardsScene, stackScene, rowsScene, flowScene, recapScene } from '../../assets/js/video.js';
+
+export default {
+  title: 'Setting objectives',
+  lead: 'From a **vision** to numbers you can track: VMOST, SMART objectives, conversion modelling and KPIs.',
+  video: {
+    scenes: [
+      titleScene({
+        eyebrow: 'E-Business · Chapter 5', title: 'Setting<br>objectives', sub: 'Lesson 6 · <span class="v-hl">From vision to KPIs</span>', badge: '6',
+        chips: ['VMOST', 'SMART', 'Conversion', 'KPIs'],
+        says: ['Lesson six: once you know where you are, where do you want to go?', 'We\'ll cover VMOST, SMART objectives, conversion modelling and KPIs.'],
+      }),
+      cardsScene({
+        name: 'Objective setting', heading: 'Elements of <span class="v-hl">objective setting</span> <span style="font-size:26px;font-weight:500;color:#4A4A63">· Figure 5.12</span>', cols: 2, height: 200,
+        items: [
+          { tag: 'VISION', title: 'Replace or complement?', text: 'Will digital channels replace existing channels or add to them? How much must we adapt?', tone: 'indigo' },
+          { tag: 'OBJECTIVES', title: 'SMART objectives', text: 'Specific, Measurable, Actionable, Relevant, Time-related.' },
+          { tag: 'DIGITAL-SPECIFIC', title: 'Online revenue contribution', text: 'The share of revenue the online channel delivers.', tone: 'cream' },
+          { tag: 'BALANCE', title: 'Customer value & balanced scorecard', text: 'Customer value targets, measured from several angles.', tone: 'tint' },
+        ],
+        says: [
+          'Setting objectives for a digital business has a few key elements.',
+          'The vision should answer: will digital channels replace existing channels, or complement them? And how adaptable must we be?',
+          'Objectives should be SMART.',
+          'Online revenue contribution is specific to digital business: the share of revenue from the online channel.',
+          'And customer value targets and balanced scorecards keep the view broad.',
+        ],
+      }),
+      stackScene({
+        name: 'VMOST', heading: 'VMOST <span style="font-size:26px;font-weight:500;color:#4A4A63">· Figure 5.13</span>',
+        layers: [
+          { title: 'Vision', text: 'what we will look like in the future', tone: 'indigo' },
+          { title: 'Mission', text: 'what we will achieve in 12–18 months' },
+          { title: 'Objectives', text: 'goals that measure progress', tone: 'tint' },
+          { title: 'Strategy', text: 'the direction we take', tone: 'cream' },
+          { title: 'Tactics', text: 'specific actions and projects', tone: 'sun' },
+        ],
+        says: [
+          'VMOST links the big picture to daily work.',
+          'Vision: what the organisation will look like in the future.',
+          'Mission: what we will achieve in the next twelve to eighteen months.',
+          'Objectives: goals that measure our progress.',
+          'Strategy: the direction we take to reach the mission and objectives.',
+          'Tactics: the specific actions, tasks and projects that get us there.',
+        ],
+      }),
+      rowsScene({
+        name: 'SMART', heading: 'Make objectives <span class="v-hl">SMART</span>',
+        items: [
+          { title: 'Specific', text: 'one clear thing, not "do better online"' },
+          { title: 'Measurable', text: 'a number you can track' },
+          { title: 'Actionable / Achievable', text: 'the team can actually do it' },
+          { title: 'Relevant', text: 'it serves the business goal' },
+          { title: 'Time-related', text: 'a deadline, e.g. "by year end"' },
+        ],
+        says: [
+          'Good objectives are SMART.',
+          'Specific.',
+          'Measurable.',
+          'Actionable, or achievable.',
+          'Relevant to the business.',
+          'And time-related: a clear deadline, like 30 percent online revenue by the end of year two.',
+        ],
+      }),
+      flowScene({
+        name: 'Conversion modelling', heading: 'Conversion modelling <span style="font-size:26px;font-weight:500;color:#4A4A63">· Figure 5.15</span>',
+        steps: [
+          { title: 'Reach', text: 'people the channel reaches' },
+          { title: 'Respondents', text: '× response efficiency', tone: 'tint' },
+          { title: 'Leads', text: '× conversion-to-lead efficiency', tone: 'cream' },
+          { title: 'Outcomes', text: '× conversion-to-sale = sales', tone: 'sun' },
+        ],
+        says: [
+          'Conversion modelling turns objectives into numbers.',
+          'Start with the reach of each channel.',
+          'Multiply by the response rate to get respondents, like website visitors.',
+          'Multiply by the conversion-to-lead rate to get leads.',
+          { say: 'And by the conversion-to-sale rate to get outcomes: sales. Some people cross between online and traditional channels at each step.', hold: 0.8 },
+        ],
+      }),
+      flowScene({
+        name: 'Goals → KPIs', heading: 'Goal → strategy → KPI <span style="font-size:26px;font-weight:500;color:#4A4A63">· Table 5.6</span>',
+        steps: [
+          { title: 'Goal', text: 'Develop revenue from new geographic markets', tone: 'tint' },
+          { title: 'Strategy', text: 'E-commerce for standard products + agents in those markets', tone: 'cream' },
+          { title: 'KPI', text: '£1m revenue by year end · 70% online revenue contribution', tone: 'sun' },
+        ],
+        says: [
+          'In practice, each goal gets a strategy and a measurable KPI.',
+          'For example, the sample B2B company\'s goal: develop revenue from new geographic markets.',
+          'Its strategy: an e-commerce facility for standard products, plus agents in those markets.',
+          'And its KPI: one million pounds of revenue by year end, with seventy percent online revenue contribution.',
+        ],
+      }),
+      recapScene({
+        points: ['VMOST: vision → mission → objectives → strategy → tactics.', 'Objectives must be SMART, with online revenue contribution.', 'Reach → respondents → leads → sales, then goal → strategy → KPI.'],
+        says: ['Quick recap.', 'VMOST runs from vision to mission, objectives, strategy and tactics.', 'Objectives must be SMART, and online revenue contribution is the digital-specific one.', 'Conversion modelling and goal-strategy-KPI tables turn it all into numbers.', 'Now try the activities and the mini quiz below.'],
+      }),
+    ],
+    checkpoints: [
+      { after: 2, q: 'In VMOST, what time span does the MISSION cover?', opts: ['The next month', 'The next 12–18 months', 'The next 10 years'], answer: 1, why: 'The vision is long-term; the mission is the next 12–18 months.' },
+    ],
+  },
+  blocks: [
+    {
+      type: 'stack',
+      title: 'VMOST, top to bottom',
+      short: 'VMOST',
+      intro: 'Tap each layer.',
+      hint: 'From the big picture down to daily actions.',
+      layers: [
+        { name: 'Vision', eg: 'future', detail: 'What we think the organisation will **look like in the future**.' },
+        { name: 'Mission', eg: '12–18 months', detail: 'What we will **achieve in the next 12–18 months**.' },
+        { name: 'Objectives', eg: 'measurable', detail: '**Goals to measure our progress**. Make them SMART.' },
+        { name: 'Strategy', eg: 'direction', detail: 'The **direction** we\'ll take to reach the mission and objectives.' },
+        { name: 'Tactics', eg: 'actions', detail: 'The **specific actions, tasks or projects** that get us there.' },
+      ],
+    },
+    {
+      type: 'sort',
+      title: 'SMART or not?',
+      short: 'SMART',
+      prompt: 'is this objective SMART?',
+      buckets: [{ id: 'y', label: 'SMART' }, { id: 'n', label: 'Not SMART', hint: 'something missing' }],
+      items: [
+        { text: 'Increase online revenue contribution from 10% to 30% by the end of year two', b: 'y' },
+        { text: 'Reduce procurement costs by 5% by year end', b: 'y' },
+        { text: 'Retain all five key accounts this financial year', b: 'y' },
+        { text: 'Become better at digital', b: 'n', why: 'Not specific, not measurable, no deadline.' },
+        { text: 'Grow online sales a lot', b: 'n', why: 'No number and no time limit.' },
+        { text: 'Get 1,000,000 app downloads tomorrow (we have 200 today)', b: 'n', why: 'Not achievable.' },
+      ],
+    },
+    {
+      type: 'funnel',
+      title: 'Play with a conversion model',
+      short: 'Conversion',
+      intro: 'Drag the sliders and watch how small changes at each step change the number of sales.',
+      stages: ['Reach', 'Respondents', 'Leads', 'Sales'],
+      start: 1000000,
+      rates: [
+        { label: 'Response', value: 10 },
+        { label: 'To lead', value: 20 },
+        { label: 'To sale', value: 25 },
+      ],
+      result: 'Sales',
+      foot: 'Example numbers. In the real model (Figure 5.15) you run this for **both** the online and the traditional channel, because people cross between them.',
+    },
+    {
+      type: 'sort',
+      title: 'Goal, strategy or KPI?',
+      short: 'Goal → KPI',
+      intro: 'Table 5.6 links each **goal** to a **strategy** and a measurable **KPI**.',
+      prompt: 'which column of the table?',
+      buckets: [{ id: 'g', label: 'Goal' }, { id: 's', label: 'Strategy' }, { id: 'k', label: 'KPI' }],
+      items: [
+        { text: 'Improve the efficiency of sourcing raw materials', b: 'g' },
+        { text: 'Develop an e-procurement system', b: 's' },
+        { text: 'Cut procurement cost by 5% by year end, 10% by year two', b: 'k' },
+        { text: 'Ensure retention of key account customers', b: 'g' },
+        { text: 'Build extranet facilities for "soft lock-in"', b: 's', why: 'Making it easy to stay locks customers in softly.' },
+        { text: 'Retain all five key accounts', b: 'k' },
+        { text: 'Protect and improve the partner network', b: 'g' },
+        { text: 'Create a partner extranet and go paperless', b: 's' },
+        { text: 'Reduce cost of sales in each main market by 30%', b: 'k' },
+      ],
+    },
+    {
+      type: 'flips',
+      title: 'Objective-setting words',
+      short: 'Key terms',
+      cards: [
+        { front: 'Replace vs complement', back: 'Will digital channels **replace** existing channels or **add** to them? Answer this in the vision.' },
+        { front: 'Online revenue contribution', back: 'The **share of revenue** the online channel brings in. A digital-specific objective.' },
+        { front: 'Balanced scorecard', back: 'Measures performance from **several angles**, not just money.' },
+        { front: 'Soft lock-in', back: 'Making it so easy to stay (e.g. an extranet) that customers **don\'t want to leave**.' },
+      ],
+    },
+  ],
+  quiz: [
+    {
+      prompt: 'Which VMOST element is "the specific actions, tasks or projects"?',
+      opts: ['Mission', 'Objectives', 'Strategy', 'Tactics'],
+      answer: 3,
+      why: 'Strategy is the direction; tactics are the actions.',
+    },
+    {
+      prompt: 'Which objective is SMART?',
+      opts: ['Be the best online retailer', 'Grow online sales a lot', 'Reach 25% online revenue contribution by December 2027', 'Improve the website'],
+      answer: 2,
+      why: 'Specific, measurable, achievable, relevant and time-bound.',
+    },
+    {
+      prompt: 'Which objective is specific to DIGITAL business strategy?',
+      opts: ['Profit margin', 'Online revenue contribution', 'Staff turnover', 'Office costs'],
+      answer: 1,
+      why: 'Online revenue contribution measures the online channel\'s share of revenue.',
+    },
+    {
+      prompt: 'In conversion modelling, what comes between respondents and outcomes?',
+      opts: ['Reach', 'Leads', 'Tactics', 'KPIs'],
+      answer: 1,
+      why: 'Reach → respondents → leads → outcomes (sales).',
+    },
+    {
+      prompt: '<strong>Mini case:</strong> A firm\'s vision asks whether its new app should eventually replace its call centre. Which question is it answering?',
+      opts: ['Replace or complement', 'SMART or not', 'Attack or defend', 'Make or buy'],
+      answer: 0,
+      why: 'A digital vision should decide if digital channels replace or complement existing ones.',
+    },
+  ],
+};

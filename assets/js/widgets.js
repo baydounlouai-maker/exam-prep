@@ -1,7 +1,7 @@
 // Interactive building blocks for data-driven lessons. Each widget takes (block, el)
-// where `block` is plain data from ic3/data/chN.js and `el` is the element to fill.
+// where `block` is plain data from a course's data files and `el` is the element to fill.
 
-import { esc, shuffle, burst, replay, ICON, feedbackHTML } from '../assets/js/common.js';
+import { esc, shuffle, burst, replay, ICON, feedbackHTML } from './common.js';
 
 /** Tiny markup for lesson text: **bold** and `code`. Everything else is escaped. */
 export function md(s) {
@@ -534,4 +534,155 @@ function sticky(block, el) {
   el.innerHTML = `<div class="sticky"><strong>${esc(block.title)}</strong><span>${md(block.text)}</span></div>`;
 }
 
-export const WIDGETS = { explorer, flips, sort, order, bars, stack, units, wildcard, backup, password, path, tree, sticky };
+/* ---------- Matrix: a 2×2 grid you reveal, then a "place it" game ---------- */
+
+const QUADS = ['tl', 'tr', 'bl', 'br'];
+
+function matrix(block, el) {
+  const { x, y, quads } = block;
+  const place = block.place || [];
+  el.innerHTML = `<div class="card card--pad mx">
+    <div class="mx__wrap">
+      <div class="mx__y" aria-hidden="true"><span>${esc(y.hi)}</span><b>${esc(y.label)} ↑</b><span>${esc(y.lo)}</span></div>
+      <div class="mx__grid" role="group" aria-label="${esc(`${y.label} against ${x.label}`)}">
+        ${QUADS.map((k) => `<button class="mx__q mx__q--${quads[k].tone || 'plain'}" type="button" data-q="${k}" aria-expanded="false">
+          <span class="mx__cover">?<small>tap to reveal</small></span>
+          <span class="mx__face"><strong>${md(quads[k].title)}</strong>${quads[k].text ? `<span>${md(quads[k].text)}</span>` : ''}</span>
+        </button>`).join('')}
+      </div>
+      <span></span>
+      <div class="mx__x" aria-hidden="true"><span>${esc(x.lo)}</span><b>${esc(x.label)} →</b><span>${esc(x.hi)}</span></div>
+    </div>
+    <div class="row mx__bar">
+      <button class="btn" type="button" data-all>Reveal all</button>
+      ${place.length ? `<button class="btn btn--primary" type="button" data-play>${ICON.bolt(16)} Place the examples (${place.length})</button>` : ''}
+    </div>
+    <div class="mx__game" aria-live="polite"></div>
+  </div>`;
+  const qs = [...el.querySelectorAll('.mx__q')];
+  const game = el.querySelector('.mx__game');
+  let mode = 'reveal';
+  let deck = [];
+  let pos = 0;
+  let score = 0;
+  let locked = false;
+
+  const open = (b) => { if (!b.classList.contains('is-open')) { b.classList.add('is-open'); b.setAttribute('aria-expanded', 'true'); } };
+  el.querySelector('[data-all]').addEventListener('click', () => qs.forEach(open));
+
+  const showItem = () => {
+    qs.forEach((b) => b.classList.remove('is-right', 'is-wrong'));
+    if (pos >= deck.length) {
+      mode = 'reveal';
+      el.querySelector('.mx').classList.remove('is-playing');
+      game.innerHTML = `<div class="game-end rise"><div class="stack" style="gap:4px"><span class="feedback__title">${score === deck.length ? 'All placed!' : `${score} of ${deck.length}`}</span><span class="muted">${score === deck.length ? 'You know this matrix.' : 'Play again to lock it in.'}</span></div></div>`;
+      return;
+    }
+    locked = false;
+    game.innerHTML = `<div class="mx__ask rise"><span class="muted">${pos + 1} of ${deck.length} · tap the box where this belongs</span><strong>${md(deck[pos].text)}</strong></div>`;
+  };
+  const answer = (b) => {
+    if (locked) return;
+    locked = true;
+    const item = deck[pos];
+    const right = b.dataset.q === item.q;
+    if (right) score++;
+    const target = qs.find((qq) => qq.dataset.q === item.q);
+    target.classList.add('is-right');
+    if (!right) b.classList.add('is-wrong');
+    const where = quads[item.q].title.replace(/\*\*/g, '');
+    game.insertAdjacentHTML('beforeend', feedbackHTML(right, right ? 'Yes!' : `It goes in: ${where}`, item.why || '', pos === deck.length - 1 ? 'Finish' : 'Next'));
+    if (right) burst(game.querySelector('[data-burst]'));
+    const nb = game.querySelector('[data-next]');
+    nb.focus({ preventScroll: true });
+    nb.addEventListener('click', () => { pos++; showItem(); });
+  };
+  qs.forEach((b) => b.addEventListener('click', () => {
+    if (mode === 'play') answer(b);
+    else { b.classList.toggle('is-open'); b.setAttribute('aria-expanded', String(b.classList.contains('is-open'))); }
+  }));
+  const playBtn = el.querySelector('[data-play]');
+  if (playBtn) playBtn.addEventListener('click', () => {
+    qs.forEach(open);
+    mode = 'play';
+    el.querySelector('.mx').classList.add('is-playing');
+    deck = shuffle(place);
+    pos = 0;
+    score = 0;
+    showItem();
+    el.querySelector('.mx__grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+
+/* ---------- Funnel: conversion modelling with sliders ---------- */
+
+function funnel(block, el) {
+  const { stages, start, rates } = block;
+  el.innerHTML = `<div class="card card--pad fun">
+    <div class="fun__rows">
+      ${stages.map((s, i) => `
+        <div class="fun__stage"><span class="fun__name">${esc(s)}</span><div class="fun__track"><span class="fun__fill"></span></div><span class="fun__val mono" data-v="${i}"></span></div>
+        ${i < rates.length ? `<label class="fun__rate"><span>${esc(rates[i].label)}</span><input type="range" min="1" max="100" step="1" value="${rates[i].value}" data-r="${i}" aria-label="${esc(rates[i].label)} percentage"><b class="mono" data-p="${i}"></b></label>` : ''}`).join('')}
+    </div>
+    <p class="fun__sum" aria-live="polite"></p>
+    ${block.foot ? `<p class="muted">${md(block.foot)}</p>` : ''}
+  </div>`;
+  const fills = [...el.querySelectorAll('.fun__fill')];
+  const inputs = [...el.querySelectorAll('input')];
+  const run = () => {
+    let v = start;
+    const vals = [v];
+    inputs.forEach((inp, i) => {
+      el.querySelector(`[data-p="${i}"]`).textContent = `${inp.value}%`;
+      v = v * (Number(inp.value) / 100);
+      vals.push(v);
+    });
+    const max = Math.log10(start + 1);
+    vals.forEach((val, i) => {
+      el.querySelector(`[data-v="${i}"]`).textContent = Math.round(val).toLocaleString('en-GB');
+      fills[i].style.width = `${Math.max(2, (Math.log10(val + 1) / max) * 100)}%`;
+    });
+    const overall = (vals[vals.length - 1] / start) * 100;
+    el.querySelector('.fun__sum').innerHTML = `${md(block.result || 'Outcomes')}: <strong class="mono">${Math.round(vals[vals.length - 1]).toLocaleString('en-GB')}</strong> · overall conversion <strong class="mono">${overall < 1 ? overall.toFixed(2) : overall.toFixed(1)}%</strong>`;
+  };
+  inputs.forEach((i) => i.addEventListener('input', run));
+  run();
+}
+
+/* ---------- Cycle: nodes around a loop, played in order ---------- */
+
+function cycle(block, el) {
+  const n = block.nodes.length;
+  el.innerHTML = `<div class="card card--pad cyc">
+    <div class="cyc__ring">
+      <span class="cyc__track" aria-hidden="true"></span>
+      <p class="cyc__center" aria-live="polite">${md(block.hint || 'Press play or tap a step.')}</p>
+      ${block.nodes.map((nd, i) => {
+        const a = -Math.PI / 2 + (i * 2 * Math.PI) / n;
+        return `<button class="cyc__node" type="button" data-i="${i}" aria-pressed="false" style="left:${50 + 40 * Math.cos(a)}%;top:${50 + 40 * Math.sin(a)}%"><span class="cyc__n">${i + 1}</span>${esc(nd.name)}</button>`;
+      }).join('')}
+    </div>
+    <div class="row"><button class="btn btn--primary" type="button" data-go>${ICON.redo(16)} Play the loop</button>${block.input ? `<span class="chip">${md(block.input)}</span>` : ''}</div>
+  </div>`;
+  const nodes = [...el.querySelectorAll('.cyc__node')];
+  const center = el.querySelector('.cyc__center');
+  let timers = [];
+  const pick = (i, linkText) => {
+    nodes.forEach((b, k) => b.setAttribute('aria-pressed', String(k === i)));
+    const nd = block.nodes[i];
+    center.innerHTML = `<strong>${esc(nd.name)}</strong><span>${md(nd.detail)}</span>${linkText ? `<em>passes on → ${esc(linkText)}</em>` : ''}`;
+    replay(center, 'rise');
+  };
+  nodes.forEach((b, i) => b.addEventListener('click', () => { timers.forEach(clearTimeout); pick(i, block.links?.[i]); }));
+  el.querySelector('[data-go]').addEventListener('click', () => {
+    timers.forEach(clearTimeout);
+    timers = [];
+    const steps = [...block.nodes.keys(), 0];
+    steps.forEach((i, k) => timers.push(setTimeout(() => {
+      pick(i, k < n ? block.links?.[i] : '');
+      nodes[i].classList.remove('is-pulse'); void nodes[i].offsetWidth; nodes[i].classList.add('is-pulse');
+    }, k * 1700)));
+  });
+}
+
+export const WIDGETS = { explorer, flips, sort, order, bars, stack, units, wildcard, backup, password, path, tree, sticky, matrix, funnel, cycle };
